@@ -279,9 +279,10 @@ Molecules are **3D QM objects** with: nuclei with defined positions surrounded b
 * GN blocks can be concatenated
 
 * Output layer of GNN depends on the task 
-The entire architecture can be summarized as follows:
 
 ## GNN Workflow
+
+The entire architecture can be summarized as follows:
 
 1. **Encode** the input graph using independent node and edge update functions to match the internal node and edge feature sizes
 
@@ -305,7 +306,7 @@ Once the architecture is defined, the parameters can be optimized using **standa
 
 * $E(n)$ equivariant graph neural nets [Satorras et. al. (2022)](https://arxiv.org/abs/2102.09844)
 
-## E(n) equivariante GNNs
+## E(n) equivariant GNNs
 
 * Refinement of MPNN
 
@@ -318,12 +319,12 @@ Once the architecture is defined, the parameters can be optimized using **standa
 ::: columns
 ::: {.column width="43%"}
 
-1. $\forall$ edges $k$, $\textbf{e'}_k = \phi^{e} (\textbf{e}_k, \textbf{v}_{r_k}, \textbf{v}_{s_k})$
+1. $\forall$ edges $k$, $\textbf{e}'_k = \phi^{e} (\textbf{e}_k, \textbf{v}_{r_k}, \textbf{v}_{s_k})$
 
 2.  $\forall$ nodes $i$
-    - $E'_i = \lbrace (\textbf{e'}_k, r_k, s_k) \rbrace_{r_k = i}$
+    - $E'_i = \lbrace (\textbf{e}'_k, r_k, s_k) \rbrace_{r_k = i}$
     - $\bf{\overline{e}'_i} = \rho^{e\rightarrow v} (E'_i)$
-    - $\textbf{v'}_i = \phi^{v} (\bf{\overline{e}'_i}, \textbf{v}_{i})$
+    - $\textbf{v}'_i = \phi^{v} (\bf{\overline{e}'_i}, \textbf{v}_{i})$
 :::
 
 
@@ -331,24 +332,25 @@ Once the architecture is defined, the parameters can be optimized using **standa
 :::
 
 ::: {.column width="43%"}
-3. $V' = \lbrace \textbf{v'}_i \rbrace_{i=1:N^v}$
-4. $\bf{\overline{v}'} = \rho^{v\rightarrow u} (V')$
+3. $V' = \lbrace \textbf{v}'_i \rbrace_{i=1:N^v}$
+4. $\bf{\overline{v}}' = \rho^{v\rightarrow u} (V')$
 5. $\textbf{u}' =  \phi^u (\bf{\overline{v}'})$. 
 :::
 :::
+
 
 ## E(n) equivariante GNNs
 
 ::: columns
 ::: {.column width="60%"}
 
-1. $\forall$ edges $k$, $\textbf{e'}_k = \phi^{e} (\textbf{e}_k, \textbf{v}_{r_k}, \textbf{v}_{s_k}, \color{red}{\Vert x_{r_k} - x_{s_k} \Vert ^2} )$
+1. $\forall$ edges $k$, $\textbf{e}'_k = \phi^{e} (\textbf{e}_k, \textbf{v}_{r_k}, \textbf{v}_{s_k}, \color{red}{\Vert x_{r_k} - x_{s_k} \Vert ^2} )$
 
 2.  $\forall$ nodes $i$
-    - $E'_i = \lbrace (\textbf{e'}_k, r_k, s_k) \rbrace_{r_k = i}$
+    - $E'_i = \lbrace (\textbf{e}'_k, r_k, s_k) \rbrace_{r_k = i}$
     - $\bf{\overline{e}'_i} = \rho^{e\rightarrow v} (E'_i)$
-    - $\textbf{v'}_i = \phi^{v} (\bf{\overline{e}'_i}, \textbf{v}_{i})$
-    - $\color{red}{x'_i = x_i + C \sum_{k;~r_k = i} (x_i - x_{s_k}) \cdot \phi^x (\textbf{e'}_k)}$
+    - $\textbf{v}'_i = \phi^{v} (\bf{\overline{e}'_i}, \textbf{v}_{i})$
+    - $\color{red}{x'_i = x_i + C \sum_{k;~r_k = i} (x_i - x_{s_k}) \cdot \phi^x (\textbf{e}'_k)}$
 :::
 
 
@@ -356,9 +358,9 @@ Once the architecture is defined, the parameters can be optimized using **standa
 :::
 
 ::: {.column width="30%"}
-3. $V' = \lbrace \textbf{v'}_i \rbrace_{i=1:N^v}$
-4. $\bf{\overline{v}'} = \rho^{v\rightarrow u} (V')$
-5. $\textbf{u}' =  \phi^u (\bf{\overline{v}'})$. 
+3. $V' = \lbrace \textbf{v}'_i \rbrace_{i=1:N^v}$
+4. $\bf{\overline{v}}' = \rho^{v\rightarrow u} (V')$
+5. $\textbf{u}' =  \phi^u (\bf{\overline{v}}')$. 
 :::
 :::
 
@@ -392,7 +394,7 @@ Usual metrics for regression
 
   - If $C(q) < q$ we say that the model is overconfident.
 
-  - If $C(q) < q$ we say that the model is underconfident.
+  - If $C(q) > q$ we say that the model is underconfident.
 
 ## Evaluating quality of probabilistic predictions
 
