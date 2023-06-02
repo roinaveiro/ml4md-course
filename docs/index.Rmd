@@ -88,7 +88,7 @@ The session will be structured as follows:
 
 ## **Slides**
 
-* [Session 1 Slides](./session1/slides/session1.pdf)
+* [Session 1 Slides](./session1/slides/session1.html)
 * Session 2 Slides - TBA
 
 ## **Notebooks**
