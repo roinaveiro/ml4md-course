@@ -1,0 +1,98 @@
+---
+title: "**Crash Course on Machine Learning for Molecular Design**"
+date: "Updated on: `r format.Date(file.mtime('index.Rmd'),'%Y-%m-%d')`"
+author: Roi Naveiro (CUNEF Universidad) and Simón Rodríguez Santana (ICMAT-CSIC)
+output:
+  html_document:
+    css: ./index.css
+    toc: yes
+    toc_float: yes
+    fig_caption: no
+    seal : False
+  pdf_document:
+    toc: yes
+---
+
+
+
+```{r packages_setup, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = T, warning = F, message = F)
+knitr::opts_chunk$set(fig.width=8, fig.height=6) 
+```
+
+## **Course description**
+
+The design of new molecules has countless applications in various industrial sectors, including pharmaceuticals and materials. However, identifying molecules with the desired properties is a complex task, as it involves identifying specific elements within the vast and structurally complex chemical space.
+
+Mathematically, this task can be likened to a combinatorial optimization problem, often stochastic and multi-objective, with black-box objective functions and constraints. To find approximate solutions to this problem, two interrelated steps are necessary:
+
+* Developing predictive models that can forecast the properties of interest from the chemical structure of the molecules.
+
+* Creating algorithms for the automatic generation of molecules (_de-novo_ generation) that meet specific structural constraints and optimize the predicted properties from the first stage.
+
+In this course, we will explore various machine learning strategies that can be utilized to effectively navigate the chemical space.
+
+## **Course contents** 
+
+### **Session 1 - ML for Molecular Properties Prediction**
+
+During the first session, we will delve into the process of fitting predictive models that can forecast the properties of molecules based on their structure. We will give special consideration to the challenge posed by the small data regime, which is a crucial obstacle in this field.
+
+The session will be structured as follows:
+
+#### **1. Computational representations of molecules**
+
+  - Features-based representations
+  - String-based representations
+  - Graph-based representations
+  - 3D representations
+
+#### **2. An overview of predictive models for molecular properties**
+
+  * Probabilistic vs Deterministic Machine Learning
+  * Basic models using features-based molecular representations
+  * Basic models using string-based molecular representations
+  * Basic models using graph-based molecular representations
+  * Basic models using 3D molecular representations
+
+#### **3. Evaluating model performance**
+
+  * Basics
+  * Evaluating quality of probabilistic predictions
+
+### **Session 2 - De-novo molecular desing**
+
+In this second session, using the concepts presented previously, we will introduce new models that perform _de-novo_ molecular design. We will employ pre-existing data to design novel molecules that are different from those present in our database. In most cases, this design phase aims at designing molecules which optimize a desired target properties in the attempt to produce new compounds. We will use the different molecular representations throughout the session wherever necessary.
+
+The session will be structured as follows:
+
+#### **1. Generative models for molecules**
+
+  * Conventional drug-design process
+  * Review of the models from the previous session 
+  * Discriminative models vs. generative models 
+  * Unconstrained vs. targeted molecule generation
+   
+#### **2. Overview on generative molecule models**
+   
+  * Gradient-free vs. gradient-based models
+  * Atom, fragment and reaction-based approaches
+  * Basic gradient-free models
+  * Basic gradient-based models
+  * Latest generative models
+
+#### **3. Metrics for generative models**
+   
+  * Target and reward function design
+  * Other concerns regarding the candidates produced
+
+## **Slides**
+
+* [Session 1 Slides](./session1/slides/session1.pdf)
+* Session 2 Slides - TBA
+
+## **Notebooks**
+
+* Session 1 Notebooks - TBA
+* Session 1 Notebooks - TBA
+
