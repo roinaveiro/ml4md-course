@@ -490,7 +490,7 @@ Many _different evolutionary algorithms_, they mostly vary on their setup regard
 Many _different evolutionary algorithms_, they mostly vary on their setup regarding common criteria:
 
 
-* **Selection process** for selecting who will parents of the next generation. <br /> Different options:
+* **Selection process**: Select parents for the next generation. <br /> Different options:
   * Select from all individuals with probability proportional to their fitness score. 
   * Randomly select $n$ individuals ($n > ρ$), and then select the ρ most fit ones as parents.
   * (_many more_)
