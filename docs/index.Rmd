@@ -93,7 +93,10 @@ The session will be structured as follows:
   - [Graph Based Predictive Models](https://github.com/roinaveiro/ml4md-course/tree/main/docs/session1/graph_based_predictive_models.ipynb)
   
   
-* Session 2 Notebooks - TBA
+* Session 2 Notebooks
+  -  [Variational Autoencoder for molecule design](https://github.com/roinaveiro/ml4md-course/tree/main/docs/session2/variational_autoencoder/VAE.ipynb)
+  -  [Molecular design via diffusion models](https://github.com/roinaveiro/ml4md-course/tree/main/docs/session2/diffusion/DIFFUSION.ipynb)
+  -  [EvoMol: Evolutionary design of molecules](https://github.com/roinaveiro/ml4md-course/tree/main/docs/session2/evolutionary_algorithm/GENETIC.ipynb)
 
 * [Case Study Notebooks](https://github.com/roinaveiro/ml4md-course/tree/main/docs/case_study/millad_case_study.ipynb)
 
