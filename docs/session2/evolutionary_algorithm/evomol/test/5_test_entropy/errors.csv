@@ -1,0 +1,18 @@
+step,error
+0,No more individual to be mutated
+1,No more individual to be mutated
+2,No more individual to be mutated
+3,No more individual to be mutated
+15,"Explicit valence for atom # 2 C, 5, is greater than permittedNCC1=S(Cl)C1 AddA-30_MoveFG-154 (Evaluation error)"
+80,"Explicit valence for atom # 19 C, 5, is greater than permittedC#CC1(C)PN(N)P(C(N)S)C2CC(F)PC(POO)[SH]21=S AddA-51_CutA-9 (Evaluation error)"
+111,"Explicit valence for atom # 15 C, 5, is greater than permittedOCON(O)PC(P(Cl)C1(O)CC=C1O)S(F)(CCBr)CP(Br)C#P CutA-1_AddA-68 (Evaluation error)"
+112,"Explicit valence for atom # 2 C, 5, is greater than permittedOCON(O)PC(P(Cl)C1(O)CC=C1O)S(F)(CCBr)CP(Br)C#P ChB-1683_RmA-13 (Evaluation error)"
+121,"Explicit valence for atom # 19 C, 5, is greater than permittedOOCN(O)PC1(P(Cl)C2(O)CC=C2OCl)C#CP(Br)CS1(F)Br MoveFG-20946_RmA-20 (Evaluation error)"
+130,"Explicit valence for atom # 20 C, 5, is greater than permittedC#CC1(C)PNP(CS)C2CC(F)PC3(P(N)OBr)C[SH]=[SH]213 MoveFG-15395 (Evaluation error)"
+134,"Explicit valence for atom # 6 C, 5, is greater than permittedCP(NNF)C(CF)(CC1(P)C=[SH](F)(Br)C1PO)N=NCCl ChB-720 (Evaluation error)"
+153,"Explicit valence for atom # 3 C, 5, is greater than permittedNN(P)C1(COSF)C2=PCS3(F)C(PN2F)C(OCl)CC32PP12 MoveFG-11476 (Evaluation error)"
+153,"Explicit valence for atom # 17 C, 5, is greater than permittedFNC1(OCl)C(S)C23P(COSF)P2C(NP)C2=PCS3(F)C1PN2 ChB-1421 (Evaluation error)"
+157,"Explicit valence for atom # 4 C, 5, is greater than permittedFNC1(OCl)C(S)C23P(COSF)P2C(NP)C2=PCS3(F)C1PN2 ChB-718_RmA-7 (Evaluation error)"
+166,"Explicit valence for atom # 14 C, 5, is greater than permittedC#SC(O)(CNCl)C12PC(C)(P(F)Cl)S(S)(P1)C2(C(CO)NPN)C(Br)(NO)PBr ChB-1137_CutA-6 (Evaluation error)"
+167,"Explicit valence for atom # 23 C, 5, is greater than permittedON(CNCl)C(P(F)S)C12C(P)(OCCF)P3C1(C1(CNCl)OC#[SH]1Br)P(Br)C1(C=P1)S32P AddA-136_ChB-2076 (Evaluation error)"
+171,"Explicit valence for atom # 9 C, 5, is greater than permittedC#SC(O)(CNCl)C12PC(C)(P(F)Cl)S(S)(P1)C2(C(CO)NPN)C(Br)(NO)PBr MoveFG-12744_CutA-1 (Evaluation error)"
