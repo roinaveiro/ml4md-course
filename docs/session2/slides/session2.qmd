@@ -451,8 +451,6 @@ EDM performs property optimization with a simple extension of $\phi$ into $\phi(
 <img src = 'https://drive.google.com/uc?id=1Ddtw6KavnMLPmjvmDa9akt9h6EmFIGKu'>
 </center>
 
-</br>
-
 `generative_models/`
 `diffusion/DIFFUSION.ipynb`
 
