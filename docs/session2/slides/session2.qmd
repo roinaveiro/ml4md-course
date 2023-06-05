@@ -1,5 +1,5 @@
 ---
-title: "_De-novo_ Molecular Design using ML"
+title: "_De-novo_ Molecular Design"
 author:
 - "Roi Naveiro (CUNEF)"
 - "Simón Rodríguez Santana (ICMAT)"
@@ -15,411 +15,568 @@ resources:
   - demo.pdf
 ---
 
+## Molecular design problem
 
-## 1D Representations
+* Design of new molecules is _time_ and _resource intensive task_ 
+* Generating promising candidates is one of the main _bottlenecks_
+* Old approach: Expert propose + synthesize + measure candidates _in vitro_
+* _Soon-to-be-old way_: High throughput virtual screening (HTVS)
+
+
+## Traditional molecular design
+
+**Virtual Screening** (VS): _Brute-force_ evaluation of huge libraries of compounds to identify structures that improve desired properties (_e.g._ drug-likeness)
+
+* Structures known _a priori_
+* Although databases are huge, they represent a _small portion of the total chemical space_
+* Concerns about _predictive validity_ and _redundancy_ [(Scannell et al., 2016)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0147215) 
+
+
+## _De-novo_ molecular design
+
+**Main goal**: Traverse the chemical space more _effectively_ (better molecules in less evaluations) 
+
+* **AI assisted _de-novo_ design** $\rightarrow$ _Process of **automatically proposing novel chemical structures** that **optimally satisfy desired properties**_
+
+<center>
+<img src="session2_files/chemical-space.jpeg" width="420" height="250">
+</center>
+
+
+## _De-novo_ molecular design
+
+Generate compounds in a _directed manner_
+
+* Reach optimal chemical solutions in fewer steps than VS  
+* Explore different acceptable regions of chemical space for a given objective (_exploration vs. exploitation_)
+
+<center>
+<img src="session2_files/screening_vs_denovo.png" width="80%" height="80%">
+</center>
+
+## Recap - molecule encoding
+
+<br />
+
+* Molecules are **3D QM objects**
+* **Encoding** enables to capture certain information 
+* _Trade-off_: information loss vs. complexity
+
+<center>
+<img src="session2_files/prediction_summary.png"  width="50%" height="50%">
+</center>
+
+## Recap - property prediction
+
+Select the model depending on the encoding information
+
+  * **1D**: Smiles, 1-hot, descriptors, etc. 
+    * Deterministic and Bayesian models
+    * Deep NNs (+ Bayesian version)
+  * **2D**: Graphs (GNNs)
+  * **3D**: Point clouds (Geometric NNs)
+
+Performance measures (RMSE, $R^2$, etc.) + assessment of probabilistic predictions 
+
+
+## Generative and discriminative models
+
+_De-novo_ design is also referred to as _generative chemistry_ 
+
+* **Discriminative models** learn decision boundaries
+* **Generative models** model the probability distribution of each class
+  
+  $\rightarrow$ _Can be instantiated to generate new examples_ (!)
+
+::: columns
+
+::: {.column width="80%"}
+<center>
+<img src="session2_files/disc_vs_gen.png" width="50%" height="50%"> 
+</center>
+:::
+
+:::{.column width="20%"}
+
+<br />
+<sup><sub><span style="color:gray"> Not the only way to obtain new compounds... </span></sub></sup>
+
+:::
+
+:::
+
+
+## Requirements
+
+* **Validity**: Adherence to chemical principles (_e.g._ valency)
+* **Uniqueness**: Rate of duplicates by the model
+* **Diversity**: Scope of the chemotypes generated 
+* **Novelty**: Presence of generated molecules in databases 
+* **Similarity**: Similarity between generated molecules and training data
+* **Synthetic feasibility**: Lab-related synthesizability
+
+_Untargetted_ vs. _targetted_ (extra metric to optimize, _e.g._ QED, PlogP and many more)
+
+
+## Generative models
+
+<br />
+
+**Targetted generation** depends on having a proper characterization of the property of interest
+
+* _Property prediction models_ serve to define an objective function (_Session 1_)
+  * Navigate a complex search space
+* **Gradient-based** vs. **gradient-free** methods
+
+
+## Gradient-based vs. gradient-free
+
+**Gradient-based**: Models that use the _gradient_ of the objective function to perform optimization 
+
+* Training requires fitting parameters using data corpuses 
+* Usually require lots of data
+* _E.g._: NN-based approaches (_s.a._ VAEs)
+
+**Gradient-free**: Metaheuristic models, based on stochastic population optimization
+
+* "_Rule-based_" approaches
+* _E.g._: Evolutionary algorithms
+
+
+## Chemical representations
+
+Chemical representation tailored for each case depending on the _data_, _objective_ and _resources_ available
+
+* _Atomic_ level: Encode information for each atom and bond 
+  * _E.g._: Atom-wise SMILES, graph, 3D coordinates...
+* _Fragment_ level: Functional groups, substructures fixed
+  * _E.g._: Benzene as a single group
+* _Reaction_ level: Target molecule as product of reactant and reactions conditions
+  *  _E.g._: Combinations from library of reactions 
+
+
+## Model zoo
+
+<br />
+
+|                	| Atom based                                                  	| Fragment based 	| Reaction based 	|
+|----------------	|-------------------------------------------------------------	|----------------	|----------------	|
+| Gradient free  	| [**EvoMol***](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-020-00458-z) <br> [GB-GA](https://pubs.rsc.org/en/content/articlelanding/2019/sc/c8sc05372c)                               	| [CReM](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-020-00431-w)           	| [AutoGrow4](https://durrantlab.pitt.edu/autogrow4/)      	|
+| Gradient based 	| [**ChemVAE***](https://pubs.acs.org/doi/full/10.1021/acscentsci.7b00572) <br> [**EDM***](https://arxiv.org/abs/2203.17003) <br>[PaccMannRL](https://www.sciencedirect.com/science/article/pii/S2589004221002376) <br> [GraphAF](https://arxiv.org/abs/2001.09382)  	| [JT-VAE](https://arxiv.org/abs/1802.04364)         	| [DoG](https://arxiv.org/abs/2012.11522)            	|
+
+
+<sup><sub><span style="color:gray"> Many (_many_) more...  [VLS3D list of resources](http://www.vls3d.com/index.php) </span></sub></sup>
+
+
+
+
+
+# Gradient based models
+
+
+## ChemVAE
+
+Originally introduced in [Bombarelli et al. (2018)](https://pubs.acs.org/doi/10.1021/acscentsci.7b00572)
+
+* Combines a **Variational Autoencoder** and a **property predictor** 
+* _Meaningful_ and _contiuous_ latent space  
+* Uses Bayesian optimization to efficiently explore the latent space  
+* Led to expansion of VAEs in molecular design
+
+<sup><sub><span style="color:gray"> Extension of the ideas from _Generative Adversarial Networks (GANs)_ and _autoencoders_ </span></sub></sup>
+
+## Autoencoder
+
+**AE**: Hourglass-structured NN that encodes and decodes the input information, consisting on an **encoder**, $f_\theta(x)$, **decoder**, $g_\phi(z)$, and the **latent space**, $z$
+
+Attempts to learn the _identity function_, _i.e._
+$$
+\text{VAE} = g_\phi \circ f_\theta \, \quad  s.t. \quad \text{VAE}^*(x) = g_\phi(f_\theta(x)) = x 
+$$
+
+<center>
+<img src="session2_files/VAE.png" width="45%" height="45%"> 
+</center>
+
+## Autoencoder
+
+* **Encoder**: Maps the input to the latent space $f_\theta(x) = z$
+* **Decoder**: Maps latent space to original space $g_\phi(z) = \hat{x}$
+* **Latent space**: Low-dimensional representation of $x$ ($z$)
+
+Minimize the reconstruction error ($\epsilon$):
+$$
+\arg \min_{\theta,\phi} \epsilon(x, \hat{x})
+$$
+
+$\hat{x} \simeq x$ $\Rightarrow$ Model encodes/decodes correctly
+
+
+## Autoencoder
+
+AE can be seen as generative models
+
+<center>
+<img src="session2_files/autoencoder.png" width="80%" height="80%"> 
+</center>
+
+Latent space _difficult to navigate_
+
+
+## Variational Autoencoders
+
+**VAE**: Adds _stochasticity_ to the encoding $\rightarrow$ _Regularize_ latent space
+
+* Instead of encoding to a point, do it to a _distribution_ $p(z|x)$
+* Sample from the distribution $z \sim p(z|x)$ and decompose
+
+$$
+Loss = \epsilon(x,\hat{x}) + regularizer
+$$
+
+The regularization forces latent encoding to ressemble a prior:
+$$
+p(z) = \mathcal{N}(0, I)
+$$
+
+
+## Variational Autoencoders
+
+The encoded data will follow
+$$
+ z \sim q(z|x) = \mathcal{N}(\mu_x, \sigma_x)
+$$
+
+where $\mu_x$ and $\sigma_x$ are given by $f_\theta(x)$, which can be seen as
+$$
+\mu_x = f^1_\theta(x), \quad \sigma_x = f^2_\theta(x)
+$$
+being $f^1$ and $f^2$ the first and second half of the units of the latent layer
+
+
+## Variational Autoencoders
+
+KL divergence as regularizer (_closed form solution_)
+$$
+KL(q(z|x)|p(z)) = \sum_{i=1}^n (\sigma_{x,i})^2 + (\mu_{x,i})^2 - log(\sigma_{x,i})-1 
+$$
+
+Adding noise, we sample from the latent space and decode it
+<center>
+<img src="session2_files/variational_autoencoder.png" width="60%" height="60%"> 
+</center>
+
+
+
+
+## ChemVAE
+
+**ChemVAE**: VAE + property predictor 
+
+$$
+\mathcal{L}_{\text{VAE}} = \epsilon(x, \hat{x}) + KL(q(z|x)|p(z)) + \mathcal{L}_P(x,\hat{x})
+$$
+with $\mathcal{L}_P(x,\hat{x})$ the property prediction error
+
+* Train all elements together 
+* _Sort_ the latent space to encode the property information
+* Bayesian optimization  to move in latent space
+  * Assume _local_ and _smooth_ behavior
+
+
+## ChemVAE
+
+<center>
+<img src="session2_files/chemvae.png" width="90%" height="90%"> 
+</center>
+
+Fig: (a) ChemVAE architecture  (b) Property optimization via BO
+
+
+## ChemVAE - Latent space
+
+Local behavior + interpolation between compounds possible 
+
+<center>
+<img src="session2_files/chemvae_exploration.png" width="90%" height="90%"> 
+</center>
+
+## ChemVAE - Latent space
+
+Property prediction _crucial_ for meaningful latent space
+<center>
+<img src="session2_files/chemvae_latent_space.png" width="85%" height="85%"> 
+</center>
+
+## ChemVAE - Comments
+
+* Lead to many other VAE-based methods
+  * _E.g._ [GraphVAE](https://arxiv.org/abs/1802.03480), [MolGAN](https://arxiv.org/pdf/1805.11973.pdf)
+* Generates compounds that are hard to synthesize
+* Latent space with very low validity (_SMILES encoding_)
+  * Use SELFIES encoding
+<center>
+<img src="session2_files/selfies_vs_smiles.png" width="85%" height="85%"> 
+</center>
+
+
+## ChemVAE - Hands on!
+
+</br>
+</br>
+
+<center>
+<img src="session2_files/chemvae_summary.png" width="35%" height="35%"> 
+</center>
+
+</br>
+
+`generative_models/`
+`variational_autoencoder/`
+`VAE.ipynb`
+
+</br>
+<sup><sub><span style="color:gray"> Only a brief introduction though... Check the [original repo](https://github.com/aspuru-guzik-group/chemical_vae) for extended functionality </span></sub></sup>
+
+
+## Other models
+
+VAE-based: Recent interest in using _reinforcement learning_
+
+* [PaccMannRL](https://www.sciencedirect.com/science/article/pii/S2589004221002376): RL-based approach using 2 VAEs 
+  * Used for SARS-CoV-2 drug discovery ([paper](https://iopscience.iop.org/article/10.1088/2632-2153/abe808))
+<center>
+<img src="session2_files/paccmannrl.png" width="47%" height="47%"> 
+</center>
+
+
+## Diffusion models
+
+[**EDM**](https://arxiv.org/abs/2203.17003): Equivariant diffusion model for 3D molecule generation
+
+* Use a **diffusion process** instead of a VAE 
+* $E(3)$ symmetries: rotation, traslation and reflections 
+
+The same principle behind [_Stable Diffusion_](https://stablediffusionweb.com/)
+
+<center>
+<img src="session2_files/stable_diffusion.png" width="80%" height="80%"> 
+</center>
+
+## Diffusion models - diffusion process
+
+**Diffusion model** learns _denoising processes_ (opposite of a _diffusion process_)
+
+ $\rightarrow$ progressively add Gaussian noise ($z_t$) to signal ($x$)
+$$
+q(z_t|x) = \mathcal{N}(z_t|\alpha_tx_t, \sigma_t^2I)
+$$
+with $\alpha_0 \approx 1$ and $\alpha_T \approx 0$ and $\sigma_t$ the added noise level  
+
+<center>
+<img src="session2_files/diffusion_example.png" width="60%" height="60%"> 
+</center>
+
+
+## Diffusion models - diffusion process
+
+The diffusion process is Markovian with transition distribution 
+$$
+q(z_t|z_s) = \mathcal{N}(z_t|\alpha_{t|s}z_s, \sigma_{t|s}^2I)\,, \quad \forall t>s
+$$
+with $\alpha_{t|s} = \alpha_t/\alpha_s$ and $\sigma_{t|s}^2 = \sigma_t^2 - \alpha_{t|s}^2\sigma_s^2$
+
+The complete process can be given by:
+$$
+\begin{gathered}
+q(z_0, z_1, \cdots, z_T|x) = q(z_0|x) \textstyle{\prod_{t=1}^T} q(z_t|z_{t-1}) \\
+q(z_s|x, z_t) = \mathcal{N}(z_s|\mu_{t \rightarrow s}(x, z_t), \,\sigma_{t \rightarrow s}^2I)
+\end{gathered}
+$$
+with $\mu_{t \rightarrow s}(x, z_t)$ and $\sigma_{t \rightarrow s}^2$ in terms of $\alpha$'s , $\sigma$'s, $x$ and $z$
+
+
+## EDM 
+
+* We know the distribution of the diffusion process at each $t$
+  * Noise applied to atom types and _other properties_ ($h$) using their encodings
+* Generative process: $\hat{x} = \phi(z_t, t)$ (denoising $z_t$)
+  * $\phi$ is an $E(3)$ **equivariant graph NN** (_session 1_)
+* We undo the path step-by-step minimizing
+$$
+\textstyle{\sum_{t=1}^T} E_{\epsilon_t \sim \mathcal{N}_{xh}(0, I)} \left[ \textstyle{\frac{1}{2}} w(t) ||\epsilon_t - \hat{\epsilon}_t||^2 \right]
+$$
+with $\hat{\epsilon}_t = \phi(z_t,t)$, $\epsilon_t$ the $t$-step diff. and $w(t)$ via $\alpha_t$ and $\sigma_t^2$ 
+
+
+## EDM - Overview
+
+</br>
+
+<center>
+<img src="session2_files/edm_overview.png" width="90%" height="90%"> 
+</center>
+
+</br>
+
+_Similar to VAE approach, but now only decoding and latent space as pure noise_
+
+
+## EDM - Computations
+
+<center>
+<img src="session2_files/edm_algo.png" width="70%" height="70%"> 
+</center>
+
+## EDM - Conditional generation
+
+
+<br />
+
+EDM performs property optimization with a simple extension of $\phi$ into $\phi(z_t, [t, c])$, with $c$ a property of interest
+
+<center>
+<img src="session2_files/edm_conditional_gen.png" width="100%" height="100%"> 
+</center>
+
+* Molecules with increasing polarizability ($\alpha$), given above
+
+
+
+## EDM - Hands on!
+
+<br />
+
+<center>
+<img src = 'https://drive.google.com/uc?id=1Ddtw6KavnMLPmjvmDa9akt9h6EmFIGKu'>
+</center>
+
+</br>
+
+`generative_models/`
+`diffusion/DIFFUSION.ipynb`
+
+
+# Gradient free models
+
+## Evolutionary algorithms
 
 ::: columns
 ::: {.column width="45%"}
 
-* Non-Unique! **Canonical SMILES**
+**Key idea:** 
 
-* Tabular data:
-
-  - One-Hot Encoding (NLP)
-  - Molecular Descriptors (usual ML models)
+Population of individuals (_states_) in which the fittest (_highest valued state_) produce offspring (_successor states_) that populate the next generation in a process of **recombination** and **mutation**.
 :::
-
 
 ::: {.column width="55%"}
-![](session2_files/m1.png){.absolute top=50}
-![](session2_files/canSMI.png){.absolute top=400}
+<center>
+![](session2_files/evolutionary_flowchart.png){right=200 height="600"} 
+</center>
 :::
 :::
 
-## Discovering new molecules - Process
+## Evolutionary algorithms
 
-* Design of new molecule: countless applications in various sectors, e.g. pharmaceuticals and materials. 
+Many _different evolutionary algorithms_, they mostly vary on their setup regarding common criteria:
 
-* Pharma: average time discovery starts - market, 13 years. Outside pharma: 25 years
+* **Population size**
+* **Representation** of each individual
+  * _Strings_ (_s.a._ `ATGC` for genes), sequences of _real numbers_ (evolution strategies) or even _ computer programs_ (_genetic programming_)
+* **Mixing number** ($\rho$): number of parents that form offspring (commonly 2, _stochastic beam search_ $\rho = 1$)
+  
+## Evolutionary algorithms
 
-![](session2_files/drug.png){.absolute top=350 left=200 width="700" height="320"}
+Many _different evolutionary algorithms_, they mostly vary on their setup regarding common criteria:
 
-## Discovering new molecules - Process
 
-* Crucial 1st step: generate pool of promising candidates 
+* **Selection process** for selecting who will parents of the next generation. <br /> Different options:
+  * Select from all individuals with probability proportional to their fitness score. 
+  * Randomly select $n$ individuals ($n > ρ$), and then select the ρ most fit ones as parents.
+  * (_many more_)
 
-* Daunting task (chemical space is huge and has complex structural constraints molecules)
+  
+## Evolutionary algorithms
 
-![](session2_files/drug.png){.absolute top=350 left=200 width="700" height="320"}
+Many _different evolutionary algorithms_, they mostly vary on their setup regarding common criteria:
 
-## The old and soon-to-be-old ways
+* **Recombination procedure** 
+  * _E.g._ $\rho = 2$, select **random crossover point** to _recombine_ two parents into two children
 
-* Old way
+<center>
+<img src="session2_files/8_queens.png" height = "80%" width = "80%">
+</center>
 
-  - Human experts propose, synthesize and test (in vitro)
+## Evolutionary algorithms
 
-* Soon-to-be-old way: high throughput virtual screening (HTVS)
+Many _different evolutionary algorithms_, they mostly vary on their setup regarding common criteria:
 
-  - Predict properties through computational chemistry…
-  - ...leverage rapid ML-based property predictions
+* **Mutation rate**, or how often offspring have random mutations representation
+* **Next generation makeup**:
+  * Just the new offspring
+  * Include a few top-scoring parents from the previous generation (**elitism**)
+  * **Culling** (individuals below a given threshold are discarded)
 
-## Problems with previous approaches
 
-* Just existing molecules are explored
+## Evolutionary algorithms
 
-* Much time lost evaluating bad leads
+<br />
 
-* **Goal**: traverse chemical space more “effectively”: reach optimal molecules with less evaluations than brute-force screening
+_Example_: (_a_) Rank population by fitness levels (_b_), resulting in pairs (_c_) from mating and producing offspring (_d_) which are subject to mutations (_e_)  
 
-## De novo design
+<center>
+<img src="session2_files/8_queens_example.png" height = "80%" width = "80%">
+</center>
 
-The process of **automatically proposing novel chemical structures** that **optimally satisfy desired properties**
 
+## Evolutionary algorithms
 
-![](session2_files/chemical-space.jpeg){.absolute top=250  left=250 width="550" height="350"}
+<br />
 
+Previous case:
+<center>
+<img src="session2_files/8_queens.png" height = "80%" width = "80%">
+</center>
 
-## Mathematically speaking
+Child gets the first three digits from the $1^{st}$ parent (327) and the remaining five from the $2^{nd}$ parent (48552) <br /> (_no mutation here_)
 
-* Combinatorial optimization problem
+## Evolutionary algorithms
 
-* Often stochastic and multi-objective
+<br />
 
-* Black-box objective functions
+**Schema**: Structure in which some positions are left unspecified
 
-* Black-box constraints
+* **Instances:** Strings that match the schema
+* _Example:_ 327$^{*****}$ (all instances beggining with 3, 2, and 7)
+* Useful to maintain an interesting piece in evolutionary process
 
-## De novo design
+<center>
+<img src="session2_files/schema.png" height = "15%" width = "15%">
+</center>
 
-The process of **automatically proposing novel chemical structures** that **optimally satisfy desired properties**
 
-![](session2_files/chemical-space.jpeg){.absolute top=250  left=250 width="550" height="350"}
+## EvoMol
 
-## Two interrelated steps 
+<center>
+<img src="session2_files/evomol.png" height = "55%" width = "55%">
+</center>
 
-1.  **Optimally satisfy desired properties:**<br> Predictive models to forecast/approximate properties/ objective functions from chemical structure
+## EvoMol - Impletation
 
-2. **Automatically proposing novel chemical structures** Automatic generation of molecules that optimize properties (predictions from first stage)
+<center>
+<img src="session2_files/evomol_algo.png" height = "100%" width = "100%">
+</center>
 
-## This workshop
 
-* **Session 1:** Predictive (QSAR) Models, with focus in low data regime
+## EvoMol - Hands on!
 
-* **Session 2:** Generative Models
+</br>
 
-* **Session 3:** The Tailor's Drawer (+ Case Study)
+<center>
+<img src="session2_files/evomol_ch4.png" height = "70%" width = "70%">
+</center>
 
-## Predictive Models
+</br>
 
-Predictive models to forecast properties of molecules given structure, wiht Focus on small data regime
-
-1. Computational representations of molecules
-
-2. An overview of predictive models for molecular properties
-
-3. Evaluating model performance
-
-
-## Representating molecules
-
-Molecules are **3D QM objects** with: nuclei with defined positions surrounded by electrons described by complex wave-functions
-
-* Digital encoding that serves as input to model
-
-* Uniqueness and invertibility
-
-* Trade-off: information lost vs complexity
-
-  - 3D coord. representation (symmetries?)
-
-  - More compact 2D (graph) representation
-
-* 1D, 2D and 3D Representations
-
-## 1D Representations
-
-* **Simplified Molecular Input Line Entry System** (SMILES)
-
-* Molecule as graph (bond length and conformational info lost)
-
-* Traverse graph
-
-* Generate Sequence of ASCII characters
-
-![](session2_files/ibup.png){.absolute left=350 left=0 width="350" height="220"}
-
-
-## 1D Representations
-
-::: columns
-::: {.column width="45%"}
-
-* Non-Unique! **Canonical SMILES**
-
-* Tabular data:
-
-  - One-Hot Encoding (NLP)
-  - Molecular Descriptors (usual ML models)
-:::
-
-
-::: {.column width="55%"}
-![](session2_files/m1.png){.absolute top=50}
-![](session2_files/canSMI.png){.absolute top=400}
-:::
-:::
-
-
-## Molecular Descriptors
-
-* Morgan Fingerprints [Capecci et. al. (2020)](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-020-00445-4)
-
-* Mordred Descriptors [Moriwaki et. al. (2018)](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-018-0258-y)
-
-* More... e.g. **molecular embeddings**
-
-## 2D Representations
-
-::: columns
-::: {.column width="42%"}
-
-* Nodes represent atoms
-* Edges represent bonds 
-* Nodes/Edges have associated features (atom number, bond type, etc.)
-* Capture connectivity!
-* Respect symmetries
-* Tailored algorithms (GNNs!)
-:::
-
-
-::: {.column width="55%"}
-![](session2_files/graphmol.png){.absolute left=600 width="400" height="600"}
-:::
-:::
-
-
-
-## 3D Representations
-
-* 3D point clouds: $\mathcal{M} = \lbrace x_i, r_i \rbrace_{i=1}^p$, where $x_i$ are features and $r_i$ are coordinates
-
-* Minimal information lost (conformational preferences, bond lengths, etc.)
-
-* Tailored predictive algorithms that respect 3D translational and rotational invariance ()
-
-![](session2_files/3d.png){.absolute left=350 left=0 width="350" height="220"}
-
-
-##  An overview of predictive models for molecular properties
-
-* Molecular representation $x$ and property $y \in \mathbb{R}$
-
-* Given training data $\mathcal{D} = \lbrace x_i, y_i \rbrace_{i=1}^p$...
-
-* ... predictive **regression** model of $y$ given $x$.
-
-* Deterministic models - **Point Forecasts**
-
-* Probabilistic (Bayesian) models - **Probabilistic Forecasts**
-
-## Models for 1D representations - Descriptors
-
-* Usual desterministic models: linear regression, RF, XGBoost, SVR...
-
-* Low-data regime:
-
-  - $p \gg n$: need for regularization
-
-  - Uncertainty is key $\Rightarrow$ probabilistic (Bayesian) models
-
-## Models for 1D representations - Strings
-
-* One-hot encoding of SMILES representations
-
-* Deep Neural Nets: RNN, 1D Conv, Transformers
-
-* BNNs
-
-  - Computationally expensive to train
-
-  - Variational Inference: uncertainty underestimation [Blei et. al. (2018)](https://arxiv.org/abs/1601.00670)
-
-## Models for 2D molecular representations
-
-* Graph Neural Networks
-
-* Sequence of graph-to-graph blocks + output layer
-
-* (Infinitely) many architectures: Graph Networks [Battaglia et. al. (2018)](https://arxiv.org/abs/1806.01261)
-
-## GNNs (on a nutshell)
-
-* Functions on graph-structured data
-
-* GN block (graph-to-graph map): primary computational unit in GNN
-
-* Graph $N_v$ nodes and $N_e$ edges: tuple $G = (\textbf{u}, V, E)$
-
-  - $\textbf{u}$: global attribute
-  - $V = \lbrace v_i \rbrace_{i=1:N^v}$: set of node attribute vectors
-  - $E = \lbrace (\textbf{e}_k, r_k, s_k)\rbrace_{k=1:N^e}$: set of edges. $\textbf{e}_k$ edge attribute, $r_k$ index of receiving node, and $s_k$ is index of sending node.
-
-## GN Block
-
-- Edge update function $\phi^e$
-
-- Node update function $\phi^v$
-
-- Global update function $\phi^u$. 
-
-- $\rho^{e\rightarrow v}$: aggregates edge attributes per node
-
-- $\rho^{e\rightarrow u}$: aggregates edge attributes globally
-
-- $\rho^{v\rightarrow u}$: aggregates node attributes globally.
-
-## GN Block - Computations
-
-![](session2_files/gn.png){}
-
-## GN Block - Computations
-
-![](session2_files/fullGN.png){}
-
-## MPNN Block - Computations
-
-![](session2_files/MPNN.png){}
-
-
-## GNN
-
-* Various parametric forms for functions
-
-* Multilayer perceptrons for the update functions and sums for the aggregate functions
-
-* GN blocks can be concatenated
-
-* Output layer of GNN depends on the task 
-The entire architecture can be summarized as follows:
-
-## GNN Workflow
-
-1. **Encode** the input graph using independent node and edge update functions to match the internal node and edge feature sizes
-
-2. Apply **multiple GN blocks**
-
-3. Use an **output** layer to map the updated global features to a property prediction
-
-Once the architecture is defined, the parameters can be optimized using **standard optimizers and loss functions**.
-
-## Models for 3D molecular representations
-
-* Geometric Neural Networks
-
-* (Again) many architectures
-
-* In a Geometric Net Block we update::
-
-  - Node features, s.t. updated features are **invariant** to 3D translations and rotations
-
-  - Node coordinates, s.t. updated coordinates are **equivariant** to 3D translations and rotations
-
-* $E(n)$ equivariant graph neural nets [Satorras et. al. (2022)](https://arxiv.org/abs/2102.09844)
-
-## E(n) equivariante GNNs
-
-* Refinement of MPNN
-
-* $G = (V, E)$
-
-* In addition to node features, coordinates: $V = \lbrace v_i, x_i \rbrace_{i=1:N_{v}}$. 
-
-## In a MPNN
-
-::: columns
-::: {.column width="43%"}
-
-1. $\forall$ edges $k$, $\textbf{e'}_k = \phi^{e} (\textbf{e}_k, \textbf{v}_{r_k}, \textbf{v}_{s_k})$
-
-2.  $\forall$ nodes $i$
-    - $E'_i = \lbrace (\textbf{e'}_k, r_k, s_k) \rbrace_{r_k = i}$
-    - $\bf{\overline{e}'_i} = \rho^{e\rightarrow v} (E'_i)$
-    - $\textbf{v'}_i = \phi^{v} (\bf{\overline{e}'_i}, \textbf{v}_{i})$
-:::
-
-
-::: {.column width="10%"}
-:::
-
-::: {.column width="43%"}
-3. $V' = \lbrace \textbf{v'}_i \rbrace_{i=1:N^v}$
-4. $\bf{\overline{v}'} = \rho^{v\rightarrow u} (V')$
-5. $\textbf{u}' =  \phi^u (\bf{\overline{v}'})$. 
-:::
-:::
-
-## E(n) equivariante GNNs
-
-::: columns
-::: {.column width="60%"}
-
-1. $\forall$ edges $k$, $\textbf{e'}_k = \phi^{e} (\textbf{e}_k, \textbf{v}_{r_k}, \textbf{v}_{s_k}, \color{red}{\Vert x_{r_k} - x_{s_k} \Vert ^2} )$
-
-2.  $\forall$ nodes $i$
-    - $E'_i = \lbrace (\textbf{e'}_k, r_k, s_k) \rbrace_{r_k = i}$
-    - $\bf{\overline{e}'_i} = \rho^{e\rightarrow v} (E'_i)$
-    - $\textbf{v'}_i = \phi^{v} (\bf{\overline{e}'_i}, \textbf{v}_{i})$
-    - $\color{red}{x'_i = x_i + C \sum_{k;~r_k = i} (x_i - x_{s_k}) \cdot \phi^x (\textbf{e'}_k)}$
-:::
-
-
-::: {.column width="10%"}
-:::
-
-::: {.column width="30%"}
-3. $V' = \lbrace \textbf{v'}_i \rbrace_{i=1:N^v}$
-4. $\bf{\overline{v}'} = \rho^{v\rightarrow u} (V')$
-5. $\textbf{u}' =  \phi^u (\bf{\overline{v}'})$. 
-:::
-:::
-
-
-
-## Evaluating model performance - Point Predictions
-
-Usual metrics for regression
-
-- RMSE
-
-- MAE
-
-- MAPE
-
-- $R^2$
-
-## Evaluating quality of probabilistic predictions
-
-* Multiple ways, research area itself!  [Gneiting and Raftery (2007)](https://sites.stat.washington.edu/raftery/Research/PDF/Gneiting2007jasa.pdf)
-
-* Calibration measures
-
-## Evaluating quality of probabilistic predictions
-
-* Idea: create $(100 \cdot q)$\% prediction intervals for the property prediction of every molecules in a test set. 
-
-* $C(q)$ is the proportion of the molecules in the test set whose property value is in the interval calculated for such molecule.
-
-  - If $C(q) = q$ we say that the model is well calibrated.
-
-  - If $C(q) < q$ we say that the model is overconfident.
-
-  - If $C(q) < q$ we say that the model is underconfident.
-
-## Evaluating quality of probabilistic predictions
-
-![](session2_files/cov.png){.absolute left=120 height="500"}
-
-
-## Hands-on!
-
-![](session2_files/hs.jpeg){.absolute left=230 top=130 height="500"}
+`generative_models/`
+`evolutionary_algorithm/GENETIC.ipynb`

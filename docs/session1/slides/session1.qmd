@@ -50,14 +50,6 @@ resources:
 
 * **Goal**: traverse chemical space more “effectively”: reach optimal molecules with less evaluations than brute-force screening
 
-## De novo design
-
-The process of **automatically proposing novel chemical structures** that **optimally satisfy desired properties**
-
-
-![](session1_files/chemical-space.jpeg){.absolute top=250  left=250 width="550" height="350"}
-
-
 ## Mathematically speaking
 
 * Combinatorial optimization problem
