@@ -81,11 +81,6 @@ The session will be structured as follows:
   * Basic gradient-based models
   * Latest generative models
 
-#### **3. Metrics for generative models**
-   
-  * Target and reward function design
-  * Other concerns regarding the candidates produced
-
 ## **Slides**
 
 * [Session 1 Slides](./session1/slides/session1.html)
