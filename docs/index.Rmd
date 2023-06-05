@@ -89,10 +89,16 @@ The session will be structured as follows:
 ## **Slides**
 
 * [Session 1 Slides](./session1/slides/session1.html)
-* Session 2 Slides - TBA
+* [Session 2 Slides](./session2/slides/session2.html)
 
 ## **Notebooks**
 
-* Session 1 Notebooks - TBA
-* Session 1 Notebooks - TBA
+* Session 1 Notebooks
+  - [Descriptors Based Predictive Models](https://github.com/roinaveiro/ml4md-course/tree/main/docs/session1/descriptors_based_predictive_models.ipynb)
+  - [Graph Based Predictive Models](https://github.com/roinaveiro/ml4md-course/tree/main/docs/session1/graph_based_predictive_models.ipynb)
+  
+  
+* Session 2 Notebooks - TBA
+
+* [Case Study Notebooks](https://github.com/roinaveiro/ml4md-course/tree/main/docs/case_study/millad_case_study.ipynb)
 

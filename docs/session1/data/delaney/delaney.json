@@ -1,0 +1,1 @@
+{"name": "delaney", "atom_set": ["C", "N", "O", "F", "P", "S", "Cl", "Br", "I"], "natom_range": [2, 55], "n_datapoints": 1116, "n_mols": 1116, "target_column": "measured log(solubility:mol/L)", "smiles_column": "can_SMILES"}

@@ -1,0 +1,1 @@
+{"name": "millad2", "atom_set": ["*", "C", "N", "O", "F", "S", "Cl"], "unique_smiles": true, "natom_range": [21, 39], "has_salts": false, "n_datapoints": 68, "n_mols": 68, "target_column": "anti-haze2", "mol_column": "mol", "smiles_column": "isosmiles"}
