@@ -90,7 +90,7 @@ The process of **automatically proposing novel chemical structures** that **opti
 
 ## Predictive Models
 
-Predictive models to forecast properties of molecules given structure, with Focus on small data regime
+Predictive models to forecast properties of molecules given structure, with focus on small data regime
 
 1. Computational representations of molecules
 
@@ -298,7 +298,7 @@ Once the architecture is defined, the parameters can be optimized using **standa
 
 * (Again) many architectures
 
-* In a Geometric Net Block we update::
+* In a Geometric Net Block we update:
 
   - Node features, s.t. updated features are **invariant** to 3D translations and rotations
 
