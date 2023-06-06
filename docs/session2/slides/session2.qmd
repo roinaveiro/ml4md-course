@@ -480,7 +480,7 @@ Many _different evolutionary algorithms_, they mostly vary on their setup regard
 
 * **Population size**
 * **Representation** of each individual
-  * _Strings_ (_s.a._ `ATGC` for genes), sequences of _real numbers_ (evolution strategies) or even _ computer programs_ (_genetic programming_)
+  * _Strings_ (_s.a._ `ATGC` for genes), sequences of _real numbers_ (evolution strategies) or even _computer programs_ (_genetic programming_)
 * **Mixing number** ($\rho$): number of parents that form offspring (commonly 2, _stochastic beam search_ $\rho = 1$)
   
 ## Evolutionary algorithms
